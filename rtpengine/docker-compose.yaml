@@ -1,0 +1,13 @@
+services:
+  # Web application service
+  rtpengine:
+    container_name: rtpengine
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    privileged: true
+    volumes:
+      - /root/rtpengine/rtpengine.conf:/etc/rtpengine/rtpengine.conf
+    network_mode: "host"
+    command:  --config-file /etc/rtpengine/rtpengine.conf -L 7 -E
+
