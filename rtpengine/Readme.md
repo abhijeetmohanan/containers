@@ -2,15 +2,23 @@
 
 An RTP Proxy.
 
-## Load Kernel Module on Server
 
-This step is optional and is primarily done to enable packet forwarding at the kernel level.  
-If you do not need this feature, proceed with the following adjustments:  
+## Enable kernel packet forwarding [ Optional ]
 
-- Remove the `-F` flag from the CLI.
-- Set `no-fallback = false` in the `rtpengine.conf` file.
+### Load Kernel Module on Server
 
-## Compile Kernel Module Locally on the Server  
+This step is optional and is primarily done to enable packet forwarding at the kernel level. The module has to be complied on the OS and then loaded into the kernel. 
+
+If you need this feature, proceed with the following adjustments:  
+
+To Enforce the use of kernel packet forwarding. 
+
+- Set `no-fallback = true` in the `rtpengine.conf` file.
+
+After setting this if the kernel module is not loaded the rtpengine will not start.
+
+
+### Compile Kernel Module Locally on the Server  
 
 ```bash
 # For Debian-based systems
@@ -18,6 +26,8 @@ If you do not need this feature, proceed with the following adjustments:
 apt-get update && apt-get install build-essential -y 
 
 git clone https://github.com/sipwise/rtpengine.git rtpengine
+
+# check out to the current LTS branch https://dfx.at/rtpengine/
 
 cd rtpengine/kernel-module 
 
@@ -38,11 +48,12 @@ make clean && make && make install
 ```
 
 
-<b>Starting RTP Engine </b>
+## Starting RTP Engine using docker-compose
 
 ```bash 
 docker-compose up -d # To start 
 docker-compose up -d --build # To rebuild
+docker-compose down # To stop
 ```
 
 ## Documents 
